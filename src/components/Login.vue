@@ -10,7 +10,7 @@
                 <el-input type="password" prefix-icon="el-icon-s-goods" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item class="btns">
-                <el-button type="primary">登录</el-button>
+                <el-button type="primary" @click="login">登录</el-button>
                 <el-button type="info" @click="resetLoginForm">重置</el-button>
             </el-form-item>
         </el-form>
@@ -24,8 +24,8 @@ export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       loginFormRules: {
         username: [
@@ -42,6 +42,20 @@ export default {
   methods: {
     resetLoginForm () {
       this.$refs.loginFormRef.resetFields()
+    },
+    login () {
+      this.$refs.loginFormRef.validate(async valid => {
+        if (valid) {
+          const { data: result } = await this.$http.post('login', this.loginForm)
+          if (result.meta.status !== 200) {
+            this.$message.error(result.meta.msg)
+          } else {
+            this.$message.success(result.meta.msg)
+            window.sessionStorage.setItem('token', result.data.token)
+            this.$router.push('/home')
+          }
+        }
+      })
     }
   }
 }
@@ -86,7 +100,7 @@ export default {
 
 .login_container .login_box .btns {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .login_container .login_form {
