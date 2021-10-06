@@ -63,6 +63,7 @@
 
 <script>
 export default {
+  name: 'Roles',
   data () {
     return {
       rolesList: [],
