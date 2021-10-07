@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container style="height: auto; min-height: 100%;">
       <el-header style="height: auto;">
           <div>
             <img src="../assets/lianxi.png">
